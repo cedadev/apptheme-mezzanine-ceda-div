@@ -19,7 +19,7 @@
                 <!-- content for each category goes here -->
                 <p>here's the content for {{cat}}</p>
                 
-                    <div class="card-deck">
+                    <div class="card-deck justify-content-center">
                         {% for item in items|portfolioitem_in_category:cat %}
                             {# does item.categories.all contain current cat ? (filter) #}
 
