@@ -8,4 +8,7 @@ body {
 
 .alert {
   margin-bottom: 0rem;
+  border-radius: 0rem;
+  padding-top: 0.55rem;
+  padding-bottom: 0.35rem;
 }
