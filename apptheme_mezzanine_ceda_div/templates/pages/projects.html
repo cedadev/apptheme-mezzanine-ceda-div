@@ -5,8 +5,8 @@
 {% block main %}
 
 <div>
-
-        <ul class="nav nav-pills" id="myTab" role="tablist">
+        <p>{{page.portfolio.leader}}</p>
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
             {% for item in categories %}
             <li class="nav-item">
                 <a class="nav-link {% if forloop.first %} active {% endif %}" id="{{item.slug}}-tab" data-toggle="tab" href="#{{item.slug}}" role="tab" aria-controls="{{item.slug}}" aria-selected="false">{{item.title}}</a>
@@ -17,7 +17,6 @@
             {% for cat in categories %}
             <div class="tab-pane fade show {% if forloop.first %}active{% endif %}" id="{{cat.slug}}" role="tabpanel" aria-labelledby="{{cat.slug}}-tab">
                 <!-- content for each category goes here -->
-                <p>here's the content for {{cat}}</p>
                 
                     <div class="card-deck justify-content-center">
                         {% for item in items|portfolioitem_in_category:cat %}
