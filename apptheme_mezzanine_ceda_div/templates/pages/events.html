@@ -1,0 +1,169 @@
+{% extends "pages/page.html" %}
+
+{% load mezzanine_tags static columns apptheme_mezzanine_tags event_tags keyword_tags i18n %}
+
+{% block main %}
+
+<div>
+        <p>{{page.portfolio.leader}}</p>
+
+        {# Tab menu to select past or future events #}
+
+        <ul class="nav nav-tabs nav-secondary" id="PastFutureMenu" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="past-tab" data-toggle="tab" href="#past" role="tab" aria-controls="past" aria-selected="true">Past Events</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="future-tab" data-toggle="tab" href="#future" role="tab" aria-controls="future" aria-selected="false">Future Events</a>
+            </li>
+        </ul>
+        <div class="tab-content" id="PastFutureMenuContent">
+            <div class="tab-pane fade show active" id="past" role="tabpanel" aria-labelledby="past-tab">
+
+                    {# Content for PortfolioItem past events #}
+                    <ul class="nav nav-pills nav-secondary" id="PastItemsMenu" role="tablist">
+                        {% for item in categories %}
+                        <li class="nav-item">
+                            <a class="nav-link {% if forloop.first %} active {% endif %}" id="{{item.slug}}-tab" data-toggle="tab" href="#{{item.slug}}" role="tab" aria-controls="{{item.slug}}" aria-selected="false">{{item.title}}</a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                    <div class="tab-content" id="PastItemsMenuContent">
+                        {% for cat in categories %}
+                        <div class="tab-pane fade show {% if forloop.first %}active{% endif %}" id="{{cat.slug}}" role="tabpanel" aria-labelledby="{{cat.slug}}-tab">
+                            <!-- content for each category goes here -->
+                            
+                                <div class="card-deck justify-content-center">
+                                    {% for item in items|portfolioitem_in_category:cat %}
+                                        {# does item.categories.all contain current cat ? (filter) #}
+            
+                                        <div class="col-3">
+                                            <div class="card text-center" >
+                                                <div class="card-header">    
+                                                        {% if item.portfolioitem.icon %}
+                                                            <span class="fa-stack fa-2x">
+                                                                <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                                                                <i class="fa {{ item.portfolioitem.icon }} fa-stack-1x fa-inverse"></i>
+                                                            </span>
+                                                        {% else %}
+                                                            <span class="fa-stack fa-2x">
+                                                                <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                                                                <i class="fa fa-info fa-stack-1x fa-inverse"></i>
+                                                            </span>
+                                                        {% endif %}
+                                                </div>
+                                                <div class="card-body">
+                                                    <h4><a class="inherit-color" href="{{ item.get_absolute_url }}">{{ item.portfolioitem.title }}</a></h4>
+                                                    {{item.portfolioitem.leader | safe}}<br>
+                                                    <a href="{{ item.get_absolute_url }}" class="btn btn-default">Learn More</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+            
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {# End of content for PortfolioItem past events #}
+
+            </div>
+            <div class="tab-pane fade show" id="future" role="tabpanel" aria-labelledby="future-tab">
+                {# Content for future events from agenda #}
+
+                    <div>
+                    {% pagination_for events %}
+
+                    {% for event in events %}
+                    
+                    <div class="card mb-3" >
+                        <div class="card-header">
+                            {% block event_list_event_title %}
+                            {% editable event.title event.start %}
+                            <div class="row">
+                                <div class="col-8 text-left">
+                                    <h5 class="card-title">{{event.title}}</h5>
+                                </div>
+                                <div class="col-4 text-right">
+                                    <h6 class="card-subtitle mb-2 text-muted">
+                                            {{ event.start |date:"SHORT_DATE_FORMAT" }}
+                                    </h6>
+                                </div>
+                            </div>
+                            {% endeditable %}
+                            {% endblock %}
+                        </div>
+                    
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-8 text-left">
+                                    {% block event_list_event_content %}
+                                    {% editable event.content %}
+                                    {{ event.description_from_content|safe }}
+                                    {% endeditable %}
+                                    {% endblock %}
+                                </div>
+                                <div class="col-4 text-right">
+                                    {% if event.featured_image %}
+                                    {% block event_list_event_featured_image %}
+                                    <a href="{{ event.get_absolute_url }}">
+                                    <img class="img-thumbnail float-right" src="{{ MEDIA_URL }}{% thumbnail event.featured_image 200 0 %}">
+                                    </a>
+                                    {% endblock %}
+                                    {% endif %}
+
+                                    {% block event_list_event_metainfo %}
+                                    {% editable event.location %}
+                                    <p class="card-text">
+                                        {% if event.location %}
+                                        {% trans "at" %}
+                                        <a href="{% url "event_list_location" event.location.slug %}">{{ event.location }}</a>
+                                        {% endif %}
+                                    </p>
+                                    {% endeditable %}
+                                    {% endblock event_list_event_metainfo %}
+                                </div>
+                            </div>
+
+
+
+
+
+
+                            {% block event_list_event_links %}
+                        
+                            <a href="{{ event.get_absolute_url }}" class="btn btn-primary btn-large">Read more</a>
+
+                            {% keywords_for event as tags %}
+                            {% if tags %}
+                            &nbsp;{% trans "Tags" %}:
+                            {% spaceless %}
+                            {% for tag in tags %}
+                            <a href="{% url "event_list_tag" tag.slug %}"><span class="badge badge-secondary">{{ tag }}</span></a>{% if not forloop.last %}&nbsp;{% endif %}
+                            {% endfor %}
+                            {% endspaceless %}
+                            
+                            {% endif %}
+                        
+                        {% endblock %}
+                        </div>
+                                
+                        </div>
+                        {% endfor %}
+                        </div>
+    
+                {% pagination_for events %}
+
+
+                {# End of content for future events from agenda #}
+            </div>
+        </div>
+
+        
+
+    
+    </div>
+
+{% endblock %}
+
+{% block right_wrapper %}{% endblock %}
