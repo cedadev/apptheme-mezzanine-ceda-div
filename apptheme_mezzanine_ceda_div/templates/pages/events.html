@@ -32,33 +32,43 @@
                         {% for cat in categories %}
                         <div class="tab-pane fade show {% if forloop.first %}active{% endif %}" id="{{cat.slug}}" role="tabpanel" aria-labelledby="{{cat.slug}}-tab">
                             <!-- content for each category goes here -->
-                            
+                                <br>
                                 <div class="card-deck justify-content-center">
                                     {% for item in items|portfolioitem_in_category:cat %}
                                         {# does item.categories.all contain current cat ? (filter) #}
             
-                                        <div class="col-3">
-                                            <div class="card text-center" >
-                                                <div class="card-header">    
-                                                        {% if item.portfolioitem.icon %}
-                                                            <span class="fa-stack fa-2x">
-                                                                <i class="fa fa-circle fa-stack-2x text-primary"></i>
-                                                                <i class="fa {{ item.portfolioitem.icon }} fa-stack-1x fa-inverse"></i>
-                                                            </span>
-                                                        {% else %}
-                                                            <span class="fa-stack fa-2x">
-                                                                <i class="fa fa-circle fa-stack-2x text-primary"></i>
-                                                                <i class="fa fa-info fa-stack-1x fa-inverse"></i>
-                                                            </span>
-                                                        {% endif %}
-                                                </div>
-                                                <div class="card-body">
-                                                    <h4><a class="inherit-color" href="{{ item.get_absolute_url }}">{{ item.portfolioitem.title }}</a></h4>
-                                                    {{item.portfolioitem.leader | safe}}<br>
-                                                    <a href="{{ item.get_absolute_url }}" class="btn btn-default">Learn More</a>
+
+                                        <div class="card mb-3" >
+                                            <div class="card-header">    
+                                                    <div class="row">
+                                                        <div class="col-8 text-left">
+                                                            <h5 class="card-title">{{item.portfolioitem.title}}</h5>
+                                                        </div>
+                                                        <div class="col-4 text-right">
+                                                            <h6 class="card-subtitle mb-2 text-muted">
+                                                                    
+                                                            </h6>
+                                                        </div>
+                                                    </div>
+                                            </div>
+                                            <div class="card-body">
+                                                <div class="row">
+                                                    <div class="col-8 text-left">
+                                                        {{item.portfolioitem.leader | safe}}<br><br>
+                                                        <a href="{{ item.get_absolute_url }}" class="btn btn-primary stretched-link">Learn More</a>
+                                                    </div>
+                                                    <div class="col-4 text-right">
+                                                        {% for image in portfolioitem.notLogos %}
+                                                            {% if forloop.first %}
+                                                            <img src="{{ MEDIA_URL }}{% thumbnail image.file 300 0 %}" class="figure-img img-fluid float-right" {% if image.alt_text %}alt="{{image.alt_text}}"{% endif %}>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                        
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
+
                                     {% endfor %}
                                 </div>
             
@@ -132,7 +142,7 @@
 
                             {% block event_list_event_links %}
                         
-                            <a href="{{ event.get_absolute_url }}" class="btn btn-primary btn-large">Read more</a>
+                            <a href="{{ event.get_absolute_url }}" class="btn btn-primary btn-large">Learn more</a>
 
                             {% keywords_for event as tags %}
                             {% if tags %}
@@ -163,6 +173,7 @@
 
     
     </div>
+    <br>
 
 {% endblock %}
 
