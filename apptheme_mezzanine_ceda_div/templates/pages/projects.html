@@ -23,19 +23,36 @@
                             {# does item.categories.all contain current cat ? (filter) #}
 
                                 <div class="card text-center" style="min-width: 18rem; max-width: 18rem;">
-                                    <div class="card-header">    
-                                            {% if item.portfolioitem.icon %}
-                                                <span class="fa-stack fa-4x">
-                                                    <i class="fa fa-circle fa-stack-2x text-primary"></i>
-                                                    <i class="fa {{ item.portfolioitem.icon }} fa-stack-1x fa-inverse"></i>
-                                                </span>
-                                            {% else %}
-                                                <span class="fa-stack fa-4x">
-                                                    <i class="fa fa-circle fa-stack-2x text-primary"></i>
-                                                    <i class="fa fa-info fa-stack-1x fa-inverse"></i>
-                                                </span>
+                                    {# display the project logo if available, else first non-logo image, else icon #}
+                                    {% if item.portfolioitem.logo %}
+                                        {% with item.portfolioitem.logo as image %}
+                                        <div class="card-header" style="padding: 0px;">
+                                                <img src="{{ MEDIA_URL }}{% thumbnail image.file 300 0  %}" class="card-img-top" {% if image.alt_text %}alt="{{image.alt_text}}"{% endif %}>
+                                        </div>
+                                        {% endwith %}
+                                    {% elif item.portfolioitem.notLogos %}
+                                        {% for image in item.portfolioitem.notLogos %}
+                                            {% if forloop.first %}
+                                            <div class="card-header" style="padding: 0px;">
+                                                    <img src="{{ MEDIA_URL }}{% thumbnail image.file 300 0  %}" class="card-img-top" {% if image.alt_text %}alt="{{image.alt_text}}"{% endif %}>
+                                            </div>
                                             {% endif %}
-                                    </div>
+                                        {% endfor %}
+                                    {% else %}
+                                        <div class="card-header" style="padding: 2rem;">   
+                                                {% if item.portfolioitem.icon %}
+                                                    <span class="fa-stack fa-4x">
+                                                        <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                                                        <i class="fa {{ item.portfolioitem.icon }} fa-stack-1x fa-inverse"></i>
+                                                    </span>
+                                                {% else %}
+                                                    <span class="fa-stack fa-4x">
+                                                        <i class="fa fa-circle fa-stack-2x text-primary"></i>
+                                                        <i class="fa fa-info fa-stack-1x fa-inverse"></i>
+                                                    </span>
+                                                {% endif %}
+                                        </div>
+                                    {% endif %}
                                     <div class="card-body">
                                         <h4>{{ item.portfolioitem.title }}</h4>
                                         <p>{{item.portfolioitem.leader | safe}}</p>
