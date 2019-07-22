@@ -21,24 +21,20 @@
             <div class="tab-pane fade show active" id="past" role="tabpanel" aria-labelledby="past-tab">
 
                     {# Content for PortfolioItem past events #}
-                    <ul class="nav nav-pills nav-secondary" id="PastItemsMenu" role="tablist">
-                        {% for item in categories %}
-                        <li class="nav-item">
-                            <a class="nav-link {% if forloop.first %} active {% endif %}" id="{{item.slug}}-tab" data-toggle="tab" href="#{{item.slug}}" role="tab" aria-controls="{{item.slug}}" aria-selected="false">{{item.title}}</a>
-                        </li>
-                        {% endfor %}
-                    </ul>
+
+                    {# TODO: Add filter by tag within this category #}
+                    
                     <div class="tab-content" id="PastItemsMenuContent">
                         {% for cat in categories %}
                         <div class="tab-pane fade show {% if forloop.first %}active{% endif %}" id="{{cat.slug}}" role="tabpanel" aria-labelledby="{{cat.slug}}-tab">
                             <!-- content for each category goes here -->
                                 <br>
-                                <div class="card-deck justify-content-center">
+                                
                                     {% for item in items|portfolioitem_in_category:cat %}
                                         {# does item.categories.all contain current cat ? (filter) #}
             
 
-                                        <div class="card mb-3" >
+                                        <div class="card mb-3">
                                             <div class="card-header">    
                                                     <div class="row">
                                                         <div class="col-8 text-left">
@@ -70,7 +66,7 @@
                                         </div>
 
                                     {% endfor %}
-                                </div>
+                                
             
                         </div>
                         {% endfor %}

@@ -22,7 +22,7 @@
                         {% for item in items|portfolioitem_in_category:cat %}
                             {# does item.categories.all contain current cat ? (filter) #}
 
-                                <div class="card text-center" style="min-width: 18rem; max-width: 18rem;">
+                                <div class="card text-center mb-3" style="min-width: 18rem; max-width: 18rem;">
                                     {# display the project logo if available, else first non-logo image, else icon #}
                                     {% if item.portfolioitem.logo %}
                                         {% with item.portfolioitem.logo as image %}
