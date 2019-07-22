@@ -22,7 +22,13 @@
 
                     {# Content for PortfolioItem past events #}
 
-                    {# TODO: Add filter by tag within this category #}
+                    <ul class="nav nav-pills nav-secondary" id="PastItemsMenu" role="tablist">
+                        {% for item in categories %}
+                        <li class="nav-item">
+                            <a class="nav-link {% if forloop.first %} active {% endif %}" id="{{item.slug}}-tab" data-toggle="tab" href="#{{item.slug}}" role="tab" aria-controls="{{item.slug}}" aria-selected="false">{{item.title}}</a>
+                        </li>
+                        {% endfor %}
+                    </ul>
                     
                     <div class="tab-content" id="PastItemsMenuContent">
                         {% for cat in categories %}
