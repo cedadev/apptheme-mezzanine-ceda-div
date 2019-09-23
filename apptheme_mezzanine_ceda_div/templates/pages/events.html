@@ -57,7 +57,7 @@
                                                 <div class="row">
                                                     <div class="col-8 text-left">
                                                         {{item.portfolioitem.leader | safe}}<br><br>
-                                                        <a href="{{ item.get_absolute_url }}" class="btn btn-primary stretched-link">Learn More</a>
+                                                        <a href="{{ item.get_absolute_url }}" class="stretched-link"></a>
                                                     </div>
                                                     <div class="col-4 text-right">
                                                         {% for image in portfolioitem.notLogos %}
@@ -144,7 +144,7 @@
 
                             {% block event_list_event_links %}
                         
-                            <a href="{{ event.get_absolute_url }}" class="btn btn-primary btn-large">Learn more</a>
+                            <a href="{{ event.get_absolute_url }}" class="stretched-link"></a>
 
                             {% keywords_for event as tags %}
                             {% if tags %}
