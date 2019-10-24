@@ -61,26 +61,26 @@
     }
 
     var tinymce_config = {
-        height: '500px',
+        height: '400px',
         language: language_codes[window.__language_code] || 'en',
-        plugins: [
-            "advlist autolink lists link image charmap print preview anchor",
-            "searchreplace visualblocks code fullscreen",
-            "insertdatetime media table contextmenu paste N1ED BootstrapEditor"
-        ],
+        plugins: 'print preview fullpage searchreplace autolink directionality visualblocks visualchars fullscreen image link media template table charmap hr pagebreak nonbreaking anchor insertdatetime advlist lists textcolor wordcount media contextmenu colorpicker textpattern N1ED BootstrapEditor',
         link_list: window.__link_list_url,
         relative_urls: false,
         convert_urls: false,
         menubar: false,
-        statusbar: false,
-        toolbar: ("insertfile undo redo | styleselect | bold italic | " +
-                  "alignleft aligncenter alignright alignjustify | " +
-                  "bullist numlist outdent indent | link image table | " +
-                  "code fullscreen"),
+        statusbar: true,
+        resize: 'both',
+        toolbar: [
+            "undo redo | searchreplace formatselect link " + 
+             "| bold italic underline strikethrough " + 
+             "| removeformat | ",
+             "alignleft aligncenter alignright alignjustify " + 
+             "| bullist numlist outdent indent | " + 
+             "hr anchor print | preview HTML save cancel"
+        ],
         file_browser_callback: custom_file_browser,
-        //content_css: window.__tinymce_css,
-        content_css: "https://artefacts.ceda.ac.uk/themes/orgtheme_ceda_div/0.3.2/4/flatly/bootstrap.css",
-        valid_elements: "*[*]"  // Don't strip anything since this is handled by bleach.
+        content_css: 'https://artefacts.ceda.ac.uk/themes/orgtheme_ceda_div/0.3.2/4/flatly/bootstrap.css',
+        valid_elements: "*[*]",  // Don't strip anything since this is handled by bleach.
     };
 
     function initialise_richtext_fields($elements) {
