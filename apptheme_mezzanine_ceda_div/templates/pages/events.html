@@ -84,9 +84,10 @@
                 {# Content for future events from agenda #}
 
                     <div>
-                    {% pagination_for events %}
-
-                    {% for event in events %}
+                    {% with events_ordered=events|order_by:"start" %}
+                    {% pagination_for events_ordered %}
+                    
+                    {% for event in events_ordered %}
                     
                     <div class="card mb-3" >
                         <div class="card-header">
@@ -98,7 +99,7 @@
                                 </div>
                                 <div class="col-4 text-right">
                                     <h6 class="card-subtitle mb-2 text-muted">
-                                            {{ event.start |date:"SHORT_DATE_FORMAT" }}
+                                            {{ event.start |date:"d/m/Y" }}
                                     </h6>
                                 </div>
                             </div>
@@ -164,7 +165,8 @@
                         {% endfor %}
                         </div>
     
-                {% pagination_for events %}
+                {% pagination_for events_ordered %}
+                {% endwith %}
 
 
                 {# End of content for future events from agenda #}
