@@ -84,7 +84,7 @@
                 {# Content for future events from agenda #}
 
                     <div>
-                    {% with events_ordered=events|order_by:"start" %}
+                    {% with events_ordered=events|published|order_by:"start" %}
                     {% pagination_for events_ordered %}
                     
                     {% for event in events_ordered %}
